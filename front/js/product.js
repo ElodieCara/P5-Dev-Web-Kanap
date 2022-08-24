@@ -64,6 +64,14 @@ function manageLocalStorage() {
     const productId = getProductId()
     const color = document.getElementById('colors').value
     const quantity = document.getElementById('quantity').valueAsNumber
+    if (!color) {
+      alert("Veuillez séléctionner une couleur")
+      return
+    }
+    if (quantity > 100 || quantity < 1) {
+      alert("La quantité doit être comprise entre 1 et 100")
+      return
+    }
     const product = formatProduct(productId, color, quantity)
     //Récupère des données du localStorage
     let productsLocalStorage = JSON.parse(localStorage.getItem("product"))
@@ -71,7 +79,6 @@ function manageLocalStorage() {
     if (!productsLocalStorage) productsLocalStorage = []
     //On recherche si l'Id d'un produit de même couleur est déjà dans le panier avec la méthode findIndex
     const productIndex = productsLocalStorage.findIndex(p => p._id === productId && p.color === color)
-    console.log(productIndex)
     // Si il n'y est pas, on push le nouvel article
     if (productIndex === -1) {
       productsLocalStorage.push(product)
