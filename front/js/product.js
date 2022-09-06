@@ -75,7 +75,7 @@ function manageLocalStorage() {
     const product = formatProduct(productId, color, quantity)
     //Récupère des données du localStorage
     let productsLocalStorage = JSON.parse(localStorage.getItem("product"))
-    //Si le localStorage existe
+    //Si le localStorage n'existec pas
     if (!productsLocalStorage) productsLocalStorage = []
     //On recherche si l'Id d'un produit de même couleur est déjà dans le panier avec la méthode findIndex
     const productIndex = productsLocalStorage.findIndex(p => p._id === productId && p.color === color)
