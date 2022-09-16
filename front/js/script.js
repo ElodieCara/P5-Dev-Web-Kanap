@@ -3,16 +3,14 @@
 function getProducts() {
     return fetch('http://localhost:3000/api/products')
         .then(response => response.json())
-        // .then(products => {
-        //     formatProducts(products);
-        // })
         .catch(error => {
             console.log(error);
-        });   
+        });
 }
 
+//--------------------------------------------------------------------------------------
 // Affichage catalogue produits
-
+//--------------------------------------------------------------------------------------
 
 function formatProducts(productsToFormat) {
     for (let product of productsToFormat) {

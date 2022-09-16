@@ -1,14 +1,13 @@
-// Etape 1: récupérer le local storage
-// Etape 2 : afficher le local storage
+//Récupérer le local storage et afficher le local storage
 let totalPrice = 0
 let totalQuantity = 0
 let productsLocalStorage = JSON.parse(localStorage.getItem("product"))
 //Si le localStorage existe
 if (!productsLocalStorage) productsLocalStorage = []
 
-/* Aller chercher l'Url */
+// Aller chercher l'Url 
 function getProduct(productId) {
-  return fetch(`http://localhost:3000/api/products/${productId}`) // on ajoute l'Id
+  return fetch(`http://localhost:3000/api/products/${productId}`)
     .then(response => response.json())
     .catch(error => {
       console.log(error);
@@ -44,7 +43,6 @@ async function showLocalStorage() {
   }
 }
 
-//---------------------------------------------------------------------------------
 //Suppression de produits
 
 function getDeleteListenerButtons() {
@@ -63,13 +61,13 @@ function initDeleteListener(deleteBtn) {
     const productIndex = productsLocalStorage.findIndex(p => p._id === id && p.color === color)
     if (productIndex !== -1) {
       productsLocalStorage.splice(productIndex, 1)
-      localStorage.removeItem("product", JSON.stringify(productsLocalStorage))
+      localStorage.setItem("product", JSON.stringify(productsLocalStorage))
       window.location.reload()
     }
   });
 }
 
-//---------------------------------------------------------------------------------
+//Changement de quantité
 
 function getChangeListenerQuantities() {
   const inputQuantities = document.querySelectorAll(".itemQuantity");
@@ -84,7 +82,6 @@ function initChangeListenerQuantity(inputQuantity) {
     const article = e.target.closest(".cart__item")
     const id = article.dataset.id
     const color = article.dataset.color
-
     const productIndex = productsLocalStorage.findIndex(p => p._id === id && p.color === color)
     if (productIndex !== -1) {
       console.log(productIndex)
@@ -109,7 +106,7 @@ function initChangeListenerQuantity(inputQuantity) {
   })
 }
 
-// //afficher total du prix
+//Afficher total du prix
 
 function showTotalPriceAndQuantity() {
   document.querySelector("#totalQuantity").innerText = totalQuantity
@@ -128,63 +125,16 @@ async function displayProducts() {
 displayProducts();
 
 // ----------------------------------------------------------------------------
-
 // Formulaire
+//-----------------------------------------------------------------------------
 
-
-// --------------------------------------------------------------------
-// ● Récupérer et analyser les données saisies par l’utilisateur dans le
-// formulaire.
-// --------------------------------------------------------------------
-
-// function placeOrderValidation() {
-//   // return document.getElementById("order")
-//   const btnOrder = document.getElementById('order')
-// }
 
 let form = document.querySelector('.cart__order__form')
 const btnOrder = document.querySelector('#order')
 console.log(form.email);
 
-// function placeOrderListener() {
-//   btnOrder.addEventListener("click", (e) => {
-//     e.preventDefault();
-//   })
+//Validation des données
 
-
-
-// ---------------------Validation des données---------------------------------
-
-//  Champs Nom et Ville
-// function validNameAndCity() {
-//   // let firstName = contact.firstName
-//   // let lastName = contact.lastName
-//   // let city = contact.city
-//   form.addEventListener('change', (e) => {
-//     // validFirstName(inputFirstName)
-//     // validLastName(inputLastName)
-//     // validCity(inputCity)
-//     validNameAndCity(inputNameAndCity)
-//   })
-// }
-
-// function validNameAndCity(inputNameAndCity) {
-//   // //création de la regexp pour validation 
-//   let nameAndCityRegExp = new RegExp(
-//     '^[A-Z][A-Za-z\é\è\ê\-]+$', 'g'
-//   );
-//   //Valider ou Message d'erreur Nom et ville
-//   let nameAndCityMsg = document.querySelector('#firstName', '#lastName', '#cityName')
-//   if (nameAndCityRegExp.test(inputNameAndCity.value)) {
-//     nameAndCityMsg.style.border = '#333 1px solid'
-//     document.querySelector("#firstNameErrorMsg").textContent = ""
-//     return true
-//   } else {
-//     nameAndCityMsg.style.border = '#CC3300 2px solid'
-//     document.querySelector("#firstNameErrorMsg").textContent = "Veulliez renseigner le champ !"
-//     return false
-//   }
-// }
 function validFirstNameListener() {
   form.firstName.addEventListener('change', () => {
     validFirstName()
@@ -208,7 +158,6 @@ function validFirstName() {
   }
 }
 
-
 function validLastNameListener() {
   form.lastName.addEventListener('change', () => {
     validLastName()
@@ -231,17 +180,17 @@ function validLastName() {
   }
 }
 
-
 function validCityListener() {
   form.city.addEventListener('change', () => {
     validCity()
   })
 }
+
 function validCity() {
   let cityRegExp = new RegExp(
     '^[a-zA-Z0-9.,-_ ]{5,50}[ ]{0,2}$', 'g'
   )
-  //Valider ou Message d'erreur LastName
+  //Valider ou Message d'erreur City
   let inputCity = document.querySelector('#city')
   if (cityRegExp.test(inputCity.value)) {
     inputCity.style.border = '#333 1px solid'
@@ -254,9 +203,6 @@ function validCity() {
   }
 }
 
-// Valide ou message d'erreur
-
-// Champ adresse
 function validAddressListener() {
   form.address.addEventListener('change', () => {
     validAddress()
@@ -264,12 +210,11 @@ function validAddressListener() {
 }
 
 function validAddress() {
-  //création de la regexp pour validation adresse
   let addressRegExp = new RegExp(
-    '^[a-zA-Z0-9.,-_ ]{5,50}[ ]{0,2}$', 'g'
+    /^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+/
   );
-  let inputAddress = document.querySelector('#address')
   //Message d'erreur
+  let inputAddress = document.querySelector('#address')
   let addressMsg = document.querySelector('#addressErrorMsg')
   if (addressRegExp.test(inputAddress.value)) {
     inputAddress.style.border = '#333 1px solid'
@@ -282,34 +227,13 @@ function validAddress() {
   }
 }
 
-
 //  Champ email
 function validEmailListener() {
   form.email.addEventListener('change', () => {
     validEmail()
-    // validEmail(this)
   })
 }
 
-// function placeOrderListener() {
-//   const btnOrder = document.getElementById('order')
-//   btnOrder.addEventListener("input", (e) => {
-//     e.preventDefault()
-//     if (validEmail(form.email)) {
-//       console.log('email valide')
-//     } else {
-//       console.log('email non valide');
-//     }
-
-//   })
-// }
-
-// --------------------------------------------------------------------
-// // ● Afficher un message d’erreur si besoin (par exemple lorsqu’un
-// // utilisateur renseigne “bonjour” dans le champ “e-mail”).
-// --------------------------------------------------------------------
-
-// //-------------------Validation Email--------------------------
 function validEmail() {
   //création de la regexp pour validation email
   let emailRegExp = new RegExp(
@@ -319,20 +243,13 @@ function validEmail() {
   //Message d'erreur
   let emailMsg = document.querySelector('#emailErrorMsg')
   if (emailRegExp.test(inputEmail.value)) {
-    emailMsg.innerHTML = 'Adresse Valide'
+    emailMsg.innerHTML = ''
     return true
   } else {
     emailMsg.innerHTML = 'Adresse Non Valide'
     return false
   }
 }
-// }
-
-
-//--------------------------------------------------------------------------------------
-//formulaire validé à envoyer dans le local storage
-//--------------------------------------------------------------------------------------
-
 
 validCityListener()
 validFirstNameListener()
@@ -340,24 +257,9 @@ validLastNameListener()
 validEmailListener()
 validAddressListener()
 
-// ● Constituer un objet contact (à partir des données du formulaire) et
-// un tableau de produits.
-
-// -----------------------Requêtes POST----------------------------------------
-
-//Requête POST
-
-// let response = fetch('/article/fetch/post/contact', {
-//   method: 'POST',
-//   headers: {
-//     'Content-Type': 'application/json;charset=utf-8'
-//   },
-//   body: JSON.stringify({contact, products})
-// });
-
-// let result = await response.json();
-// alert(result.message);
-
+//--------------------------------------------------------------------------------------
+//formulaire validé à envoyer dans le local storage
+//--------------------------------------------------------------------------------------
 
 function order() {
   document.querySelector('#order').addEventListener('click', (e) => {
@@ -378,6 +280,23 @@ function order() {
       city: document.querySelector('#city').value,
       email: document.querySelector('#email').value,
     }
+
+    const productIds = productsLS.map(p => p._id)
+    const body = {
+      contact, products: productIds
+    }
+    fetch("http://localhost:3000/api/products/order", {
+      method: "POST", body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(resp => resp.json())
+      .then(resp => {
+        localStorage.clear()
+        window.location.href = "confirmation.html?orderID=" + resp.orderId
+      })
   })
 }
+
 order()
