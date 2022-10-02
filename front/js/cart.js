@@ -2,7 +2,6 @@
 let totalPrice = 0
 let totalQuantity = 0
 let productsLocalStorage = JSON.parse(localStorage.getItem("product"))
-//Si le localStorage existe
 if (!productsLocalStorage) productsLocalStorage = []
 
 // Aller chercher l'Url 
@@ -44,7 +43,6 @@ async function showLocalStorage() {
 }
 
 //Suppression de produits
-
 function getDeleteListenerButtons() {
   const deleteBtns = document.querySelectorAll(".deleteItem");
   for (const deleteBtn of deleteBtns) {
@@ -68,7 +66,6 @@ function initDeleteListener(deleteBtn) {
 }
 
 //Changement de quantité
-
 function getChangeListenerQuantities() {
   const inputQuantities = document.querySelectorAll(".itemQuantity");
   for (const inputQuantity of inputQuantities) {
@@ -107,13 +104,10 @@ function initChangeListenerQuantity(inputQuantity) {
 }
 
 //Afficher total du prix
-
 function showTotalPriceAndQuantity() {
   document.querySelector("#totalQuantity").innerText = totalQuantity
   document.querySelector("#totalPrice").innerText = totalPrice
 }
-
-//----------------------------------------------------------------
 
 async function displayProducts() {
   await showLocalStorage()
@@ -127,14 +121,11 @@ displayProducts();
 // ----------------------------------------------------------------------------
 // Formulaire
 //-----------------------------------------------------------------------------
-
-
 let form = document.querySelector('.cart__order__form')
 const btnOrder = document.querySelector('#order')
 console.log(form.email);
 
 //Validation des données
-
 function validFirstNameListener() {
   form.firstName.addEventListener('change', () => {
     validFirstName()
@@ -153,7 +144,7 @@ function validFirstName() {
     return true
   } else {
     inputFirstName.style.border = '#CC3300 2px solid'
-    document.querySelector("#firstNameErrorMsg").textContent = "Veulliez renseigner le champ"
+    document.querySelector("#firstNameErrorMsg").textContent = "Veulliez renseigner le champ !"
     return false
   }
 }
@@ -175,7 +166,7 @@ function validLastName() {
     return true
   } else {
     inputLastName.style.border = '#CC3300 2px solid'
-    document.querySelector("#lastNameErrorMsg").textContent = "Veuillez renseigner le champ"
+    document.querySelector("#lastNameErrorMsg").textContent = "Veuillez renseigner le champ !"
     return false
   }
 }
@@ -198,7 +189,7 @@ function validCity() {
     return true
   } else {
     inputCity.style.border = '#CC3300 2px solid'
-    document.querySelector("#cityErrorMsg").textContent = "Veuillez renseigner le champ"
+    document.querySelector("#cityErrorMsg").textContent = "Veuillez renseigner le champ !"
     return false
   }
 }
@@ -257,10 +248,7 @@ validLastNameListener()
 validEmailListener()
 validAddressListener()
 
-//--------------------------------------------------------------------------------------
 //formulaire validé à envoyer dans le local storage
-//--------------------------------------------------------------------------------------
-
 function order() {
   document.querySelector('#order').addEventListener('click', (e) => {
     e.preventDefault()

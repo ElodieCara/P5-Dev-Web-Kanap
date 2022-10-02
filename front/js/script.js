@@ -1,5 +1,4 @@
-//Requête de l'API pour lui demander l'ensemble des produits
-
+//Requête à l'API pour lui demander l'ensemble des produits
 function getProducts() {
     return fetch('http://localhost:3000/api/products')
         .then(response => response.json())
@@ -8,10 +7,7 @@ function getProducts() {
         });
 }
 
-//--------------------------------------------------------------------------------------
-// Affichage catalogue produits
-//--------------------------------------------------------------------------------------
-
+//Affichage catalogue produits
 function formatProducts(productsToFormat) {
     for (let product of productsToFormat) {
         document.querySelector('#items').innerHTML += `<a href="./product.html?id=${product._id}">
