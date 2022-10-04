@@ -4,7 +4,6 @@ let totalQuantity = 0
 let productsLocalStorage = JSON.parse(localStorage.getItem("product"))
 if (!productsLocalStorage) productsLocalStorage = []
 
-// Aller chercher l'Url 
 function getProduct(productId) {
   return fetch(`http://localhost:3000/api/products/${productId}`)
     .then(response => response.json())
@@ -60,9 +59,11 @@ function initDeleteListener(deleteBtn) {
     if (productIndex !== -1) {
       productsLocalStorage.splice(productIndex, 1)
       localStorage.setItem("product", JSON.stringify(productsLocalStorage))
-      window.location.reload()
+      article.remove()
+      showNewTotalPriceAndQuantity()
     }
   });
+
 }
 
 //Changement de quantité
@@ -87,6 +88,7 @@ function initChangeListenerQuantity(inputQuantity) {
       if (inputQuantity.valueAsNumber == 0) {
         productsLocalStorage.splice(productIndex, 1)
         localStorage.setItem("product", JSON.stringify(productsLocalStorage))
+        article.remove()
       }
       // si j'ai une quantité à 100, une alerte;
       else if (inputQuantity.valueAsNumber > 100) {
@@ -98,7 +100,9 @@ function initChangeListenerQuantity(inputQuantity) {
         productsLocalStorage[productIndex].quantity = inputQuantity.valueAsNumber
         localStorage.setItem("product", JSON.stringify(productsLocalStorage));
       }
-      window.location.reload()
+      // window.location.reload()
+      // showTotalPriceAndQuantity()
+      showNewTotalPriceAndQuantity()
     }
   })
 }
@@ -108,6 +112,19 @@ function showTotalPriceAndQuantity() {
   document.querySelector("#totalQuantity").innerText = totalQuantity
   document.querySelector("#totalPrice").innerText = totalPrice
 }
+
+async function showNewTotalPriceAndQuantity() {
+  totalPrice = 0
+  totalQuantity = 0
+  for (let productInLS of productsLocalStorage) {
+    const product = await getProduct(productInLS._id)
+    totalPrice += product.price * productInLS.quantity
+    totalQuantity += productInLS.quantity
+  }
+  document.querySelector("#totalQuantity").innerText = totalQuantity
+  document.querySelector("#totalPrice").innerText = totalPrice
+}
+
 
 async function displayProducts() {
   await showLocalStorage()
